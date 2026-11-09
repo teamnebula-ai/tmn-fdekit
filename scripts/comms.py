@@ -22,6 +22,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _common import read_hook_input, segments  # noqa: E402
 from slop import lint, verdict  # noqa: E402
+import config  # noqa: E402
 
 
 def texts_from_bash(command: str, cwd: str | None) -> list[tuple[str, str]]:
@@ -59,10 +60,11 @@ def texts_from_mcp(tool: str, ti: dict) -> list[tuple[str, str]]:
 
 
 def main() -> int:
-    mode = os.environ.get("TMN_FDEKIT_COMMS", "block")
+    ev = read_hook_input()
+    settings = config.for_session(ev).get("comms", {})
+    mode = settings.get("mode") or "block"
     if mode == "off":
         return 0
-    ev = read_hook_input()
     tool = ev.get("tool_name") or ""
     ti = ev.get("tool_input") or {}
     cmd = ti.get("command") if isinstance(ti, dict) else None
@@ -74,7 +76,7 @@ def main() -> int:
         items = texts_from_mcp(tool, ti)
     if not items:
         return 0
-    vp = os.environ.get("TMN_FDEKIT_VOICE")
+    vp = settings.get("voice")
     voice = Path(vp).read_text() if vp and Path(vp).exists() else None
     report = []
     for target, text in items:

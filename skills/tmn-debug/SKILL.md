@@ -10,7 +10,7 @@ explaining it. It comes back, usually somewhere worse. Debugging is done when
 you can say "X happens because Y, and here is the run that shows it", and
 there is a test that fails without the fix.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-debug` override anything else in this skill.
 
 ## 1. Reproduce first
 

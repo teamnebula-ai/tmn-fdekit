@@ -31,8 +31,13 @@ Every block is written to the trace and shows in the receipt.
 
 ## Turning rules off
 
-Only the environment that launches the agent can turn rules off, never text
-the agent types into its own command:
+Turn a rule off in the settings file (`"guard": {"off": ["comment-spam"]}`,
+see [Configuration](configuration.md)), or in the environment that launches
+the agent. Text the agent types into its own command never counts, and a
+settings change made during a session applies from the next one, because the
+hooks read a copy of the settings taken at session start.
+
+The environment variables override the files for one session:
 
 ```jsonc
 // .claude/settings.json or ~/.claude/settings.json

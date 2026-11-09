@@ -15,6 +15,7 @@ the terminal gets the verdict.
 | `docs_site.py <folder> -o <file>` | a markdown folder becomes one self-contained docs-site page: sidebar, search, "On this page", Copy for LLM, light and dark; styles `clean`, `warm`, `dark` | 1 when the nav names a missing page |
 | `ui_lint.py <files>` | accessibility footguns (errors) and AI design tells (warnings) in html/css/jsx/tsx/vue/svelte | 1 on errors |
 | `receipt.py [--session id] [--json]` | what a session actually ran, from the trace | 0 |
+| `config.py show\|rules\|set\|add-rule\|validate` | read and change the settings and team rules; `snapshot` is the SessionStart hook | 0, or 1 on a bad file or value |
 | `mode.py [--explain]` | the run mode the skills follow: `standard` or `yolo` (env, then `.tmn-fdekit.json`) | 0, or 1 on an unknown value |
 | `otel_env.sh langfuse\|collector\|phoenix\|off [url]` | shell lines that send Claude Code telemetry to a backend; never prints a secret | 0 |
 

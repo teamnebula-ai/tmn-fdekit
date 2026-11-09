@@ -10,7 +10,7 @@ terracotta accent, dark screens with one neon accent, identical rounded cards
 with soft shadows, a tracked all-caps label above every heading. Users now
 read those as "an AI made this". The fix is to decide on purpose, then check.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-ui-design` override anything else in this skill.
 
 **The brief wins.** If the user, the brand file or the existing design system
 says otherwise, follow it. Everything below is a default, not a law.

@@ -9,7 +9,7 @@ Assume a motivated user, a broken dependency and a careless future teammate.
 The question for each risk is: can I show it happening? A list of theoretical
 issues gets ignored. Two proven ones get fixed.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-harden-prod` override anything else in this skill.
 
 ## 1. Map the surface
 

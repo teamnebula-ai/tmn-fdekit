@@ -10,7 +10,7 @@ clearly. It is not to look thorough. A review with three confirmed findings
 beats one with twenty guesses, and "no issues found, here is what I ran" is a
 good review.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-pr-review` override anything else in this skill.
 
 Read `tmn-staff-bar` first if it isn't loaded. Scripts are in `${CLAUDE_PLUGIN_ROOT}/scripts/`.
 
@@ -26,8 +26,9 @@ Stop, or change mode, when:
 - **You (or the account you act as) wrote it.** You may review it to find
   problems, but you will not approve it. Report the findings in chat, or as
   one comment, and say it needs another reviewer.
-- **It is over ~500 changed lines.** Say it should be split, and review it
-  anyway if asked. Note that a review at this size is shallower.
+- **It is over the repo's PR limit** (`pr.max_lines` in `config.py show`,
+  1,000 by default). Say it should be split, and review it anyway if asked.
+  Note that a review at this size is shallower.
 - **The work is still in flight.** Uncommitted or unpushed work isn't yours
   to review yet. Ask the author.
 - **You can't get what a review needs.** If the ticket won't load, the diff

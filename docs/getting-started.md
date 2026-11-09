@@ -20,14 +20,19 @@ Then check the tools the scripts need:
 npx -y github:teamnebula-ai/tmn-fdekit doctor
 ```
 
-## 2. Tell it how your repo runs (optional)
+## 2. Fit it to your team
+
+Ask your agent to **"set up the kit"**. The `tmn-setup` skill asks about your
+run mode, PR size limits, tickets, protected branches and writing style, plus
+any skill rule that doesn't fit how you work. It writes the answers to your
+settings file (`~/.tmn-fdekit/config.json`) or to the repo's
+`.tmn-fdekit.json`. Every key is in [Configuration](configuration.md).
 
 The scripts find your lint, test and run commands on their own. If they guess
-wrong, or you want CI to share the same limits, add `.tmn-fdekit.json` at
-the repo root:
+wrong, add them to the same file:
 
 ```json
-{ "test": "make test", "up": "docker compose up -d --wait", "pr": { "one_commit": true } }
+{ "test": "make test", "up": "docker compose up -d --wait", "pr": { "max_lines": 1500, "one_commit": true } }
 ```
 
 Check what it found: `python3 <plugin>/scripts/gate.py --list`.

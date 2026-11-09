@@ -98,7 +98,7 @@ npx -y github:teamnebula-ai/tmn-fdekit doctor              # tools, and where sk
 
 The installer never overwrites a skill folder it didn't create unless you pass
 `--force`. Pin a version for repeatable installs:
-`npx -y github:teamnebula-ai/tmn-fdekit#v0.5.0 install`.
+`npx -y github:teamnebula-ai/tmn-fdekit#v0.6.0 install`.
 
 ## Requirements
 

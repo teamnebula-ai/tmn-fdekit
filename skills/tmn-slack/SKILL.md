@@ -8,7 +8,7 @@ description: (tmn) Draft and send a Slack message that a busy teammate reads onc
 Only the first line shows in a notification, and people read Slack between
 other things. Write for someone glancing at their phone.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-slack` override anything else in this skill.
 
 ## Before you write
 

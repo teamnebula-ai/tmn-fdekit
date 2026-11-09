@@ -8,7 +8,7 @@ description: (tmn) See exactly what an agent did - every command, edit, test run
 Two layers. The first is always on and free. The second is for teams that
 want sessions in a dashboard.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-trace` override anything else in this skill.
 
 ## Layer 1: the local trace (on with the plugin)
 

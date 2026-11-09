@@ -13,8 +13,9 @@ Checks (FAIL blocks, WARN informs):
   env         env vars read by new code but missing from .env.example
   claims      the body says tests pass / adds security that no changed file shows
 
-Limits and patterns come from .tmn-fdekit.json ("pr": {...}) when present:
-  {"pr": {"warn_lines": 300, "max_lines": 500, "warn_files": 10, "max_files": 15,
+Limits and patterns come from the settings (scripts/config.py: defaults, then
+~/.tmn-fdekit/config.json, then the repo's .tmn-fdekit.json "pr" block):
+  {"pr": {"warn_lines": 400, "max_lines": 1000, "warn_files": 25, "max_files": 50,
           "one_commit": true, "ticket_re": "[A-Z][A-Z0-9]+-\\\\d+"}}
 Add `pr-check:allow` on a line to vet a one-off exception; it shows in the report.
 """
@@ -29,9 +30,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _common import SECRET_PATTERNS  # noqa: E402
+import config  # noqa: E402
 
-DEFAULTS = {"warn_lines": 300, "max_lines": 500, "warn_files": 10, "max_files": 15, "one_commit": False,
-            "ticket_re": r"\b[A-Z][A-Z0-9]{1,9}-\d+\b|(?:closes|fixes|resolves|refs)\s+#\d+|linear\.app/\S+/issue/|/browse/[A-Z]+-\d+"}
+DEFAULTS = config.DEFAULTS["pr"]
 GENERATED = re.compile(r"(^|/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|poetry\.lock|uv\.lock|Cargo\.lock|go\.sum|.*\.min\.(js|css)|.*\.snap|dist/|build/|vendor/)")
 TEST_FILE = re.compile(r"(^|/)(tests?|__tests__|spec|e2e)/|(\.|_)(test|spec)\.[a-z]+$|(^|/)test_[^/]*\.py$|_test\.go$")
 MACHINE = re.compile(r"/Users/(?!<|\$|\{|name\b|you\b|me\b|runner\b|Shared\b)[A-Za-z][\w.-]+/|/home/(?!<|\$|\{|runner\b|user\b|ubuntu\b|node\b)[a-z][\w.-]+/|C:\\\\?Users\\\\?")
@@ -81,10 +82,10 @@ def main() -> int:
     a = ap.parse_args()
 
     root = Path(git("rev-parse", "--show-toplevel").strip())
-    cfg = dict(DEFAULTS)
-    cfg_file = root / ".tmn-fdekit.json"
-    if cfg_file.exists():
-        cfg.update((json.loads(cfg_file.read_text()).get("pr") or {}))
+    try:
+        cfg = config.load(root)[0]["pr"]
+    except config.ConfigError as e:
+        raise SystemExit(f"pr_check: {e}")
     base = a.base or default_base()
 
     body = ""

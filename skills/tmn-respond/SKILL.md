@@ -9,7 +9,7 @@ A review comment is a claim, not an order. Treat it the way a reviewer should
 treat your code: check it before you act on it. Agreeing with everything
 ("Great catch! Fixed!") without checking is how wrong fixes ship.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-respond` override anything else in this skill.
 
 ## 1. Gather the whole round first
 
