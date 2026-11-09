@@ -8,6 +8,7 @@ whether the hooks can run there.
 |---|---|---|---|---|
 | **Claude Code** | `$CLAUDE_CONFIG_DIR/skills` or `~/.claude/skills` | `.claude/skills` | full: guard, comms, trace, claims, receipts | the plugin, or `install --target claude` then `hooks` |
 | **OpenAI Codex** | `~/.agents/skills` | `.agents/skills` | guard, trace, claims via `~/.codex/hooks.json` (beta) | `install --target codex`, then `hooks --target codex` |
+| **Google Antigravity** | `~/.gemini/config/skills` | `.agents/skills` | not yet; use CI and git hooks | `install --target antigravity` |
 | **Cursor** | `~/.cursor/skills` | `.cursor/skills` | not yet; use CI and git hooks | `install --target cursor` |
 | **Gemini CLI** | `~/.gemini/skills` | `.gemini/skills` | not yet; use CI and git hooks | `install --target gemini` |
 | **GitHub Copilot** | `~/.copilot/skills` | `.github/skills` | not yet; use CI and git hooks | `install --target copilot` |
@@ -23,7 +24,8 @@ description starts with `(tmn)`. In Claude Code the plugin gives them as
 `tmn-fdekit-<skill>` folders it left behind, and never touches a folder the
 installer didn't create.
 
-Folders were checked against each vendor's docs on 2026-11-06. Agents move
+Folders were checked against each vendor's docs on 2026-11-06, and
+Antigravity's on 2026-11-09 ([antigravity.google/docs/skills](https://antigravity.google/docs/skills)). Agents move
 their folders; if one stops picking the skills up, run `tmn-fdekit doctor`
 and compare it with the vendor's current docs.
 
@@ -62,7 +64,20 @@ tool that carries a `command`, so it works with Codex's shell tool. Codex
 support for the comms and trace hooks is beta, so check the receipt after your
 first session.
 
-## Cursor, Gemini, Copilot, Devin, OpenCode, Amp
+## Antigravity
+
+```bash
+npx -y github:teamnebula-ai/tmn-fdekit install --target antigravity            # ~/.gemini/config/skills
+npx -y github:teamnebula-ai/tmn-fdekit install --target antigravity --project  # .agents/skills in this repo
+```
+
+The App, CLI and IDE all read `~/.gemini/config/skills`. In a repo,
+Antigravity reads `.agents/skills` (and still the older `.agent/skills`), the
+same folder Codex and Amp use, so one project install serves all three. In
+the CLI each skill is also a slash command; run `/skills reload` after
+installing.
+
+## Cursor, Gemini, Copilot, Devin, OpenCode, Amp, Antigravity
 
 ```bash
 npx -y github:teamnebula-ai/tmn-fdekit install                    # finds the agents on this machine
@@ -98,7 +113,7 @@ npx -y github:teamnebula-ai/tmn-fdekit doctor              # tools, and where sk
 
 The installer never overwrites a skill folder it didn't create unless you pass
 `--force`. Pin a version for repeatable installs:
-`npx -y github:teamnebula-ai/tmn-fdekit#v0.6.0 install`.
+`npx -y github:teamnebula-ai/tmn-fdekit#v0.6.1 install`.
 
 ## Requirements
 

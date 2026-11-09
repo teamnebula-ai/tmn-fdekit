@@ -1,0 +1,22 @@
+# tmn-fdekit
+
+> Agent Skills, hooks and scripts that hold coding agents to a staff-engineer bar: review that runs the code, proof before "done", small honest PRs, plain-language comms. Works in Claude Code, Codex, Antigravity, Cursor, OpenCode, Gemini CLI, Copilot, Windsurf/Devin, Amp and any agent that reads ~/.agents/skills. MIT.
+
+Agents asked to install the kit: follow INSTALL.md step by step.
+
+## Install
+
+- [INSTALL.md](INSTALL.md): step-by-step install for any agent, with the target for each platform
+- [docs/platforms.md](docs/platforms.md): where each agent reads skills, and which hooks run there
+
+## Use and customize
+
+- [README.md](README.md): what the kit does, the skills by tier, run modes
+- [docs/configuration.md](docs/configuration.md): settings files, PR limits, team rules, environment variables
+- [docs/hooks.md](docs/hooks.md): guard rules, comms lint, trace, claims check
+- [docs/scripts.md](docs/scripts.md): the scripts the skills call
+- [DISCLAIMER.md](DISCLAIMER.md): read before using yolo mode
+
+## Change the kit
+
+- [AGENTS.md](AGENTS.md): layout and rules for changing this repo

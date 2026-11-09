@@ -62,6 +62,12 @@ export const TARGETS = {
     project: (cwd) => join(cwd, ".gemini", "skills"),
     detect: () => existsSync(join(HOME, ".gemini")),
   },
+  antigravity: {
+    label: "Google Antigravity",
+    user: () => join(HOME, ".gemini", "config", "skills"),
+    project: (cwd) => join(cwd, ".agents", "skills"),
+    detect: () => existsSync(join(HOME, ".gemini", "config")) || existsSync(join(HOME, ".gemini", "antigravity")),
+  },
   copilot: {
     label: "GitHub Copilot",
     user: () => join(HOME, ".copilot", "skills"),
