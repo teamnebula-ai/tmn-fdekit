@@ -9,7 +9,7 @@ description: (tmn) Prove a change works before calling it done - run the repo's 
 show the output. This skill is the author's side of the review: the same
 checks a good reviewer will run, done first so the review finds nothing.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-verify` override anything else in this skill.
 
 Scripts are in `${CLAUDE_PLUGIN_ROOT}/scripts/`.
 

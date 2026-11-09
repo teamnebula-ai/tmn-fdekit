@@ -9,7 +9,7 @@ A docs page earns trust when it looks like a real docs site and every word in
 it is true. The builder handles the first part. Your job is the second part:
 the content, the structure and the check.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-docs-site` override anything else in this skill.
 
 The builder is `scripts/docs_site.py`. It takes a folder of markdown pages and
 writes one HTML file with no outside dependencies except Google Fonts. Never

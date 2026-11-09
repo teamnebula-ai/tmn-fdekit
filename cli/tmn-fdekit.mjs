@@ -120,7 +120,7 @@ const TIERS = {
   "tmn-staff-bar": 0,
   "tmn-verify": 1, "tmn-pr-review": 1, "tmn-ship-pr": 1, "tmn-respond": 1, "tmn-debug": 1, "tmn-harden-prod": 1,
   "tmn-write": 2, "tmn-slack": 2, "tmn-ui-design": 2, "tmn-docs-site": 2,
-  "tmn-trace": 3, "tmn-enforce": 3,
+  "tmn-setup": 3, "tmn-trace": 3, "tmn-enforce": 3,
 };
 
 function pickTargets(opt) {
@@ -187,6 +187,7 @@ function cmdInstall(opt) {
     console.log(`${TARGETS[t].label.padEnd(36)} ${list.length} skills -> ${base}`);
   }
   console.log(`scripts                              -> ${shared}/scripts`);
+  console.log(`\nNext: ask your agent to "set up the kit" (the tmn-setup skill) to fit the limits, mode and rules to your team.`);
   console.log(`\nClaude Code users: the plugin gives you the hooks too. Run \`tmn-fdekit hooks\` to add them without it.`);
 }
 
@@ -216,7 +217,7 @@ export function hookConfig(scriptsDir) {
     ],
     PostToolUse: [{ matcher: "*", hooks: [{ type: "command", command: py("trace.py"), async: true }], _ns: 1 }],
     PostToolUseFailure: [{ matcher: "*", hooks: [{ type: "command", command: py("trace.py"), async: true }], _ns: 1 }],
-    SessionStart: [{ hooks: [{ type: "command", command: py("trace.py"), async: true }], _ns: 1 }],
+    SessionStart: [{ hooks: [{ type: "command", command: py("config.py", " snapshot"), timeout: 10 }, { type: "command", command: py("trace.py"), async: true }], _ns: 1 }],
     SubagentStop: [{ hooks: [{ type: "command", command: py("trace.py"), async: true }], _ns: 1 }],
     Stop: [{ hooks: [{ type: "command", command: py("claims.py"), timeout: 10 }, { type: "command", command: py("receipt.py", " --hook"), async: true }], _ns: 1 }],
     SessionEnd: [{ hooks: [{ type: "command", command: py("receipt.py", " --hook") }], _ns: 1 }],

@@ -12,7 +12,10 @@
     ],
     "PostToolUse":        [ { "matcher": "*", "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true } ] } ],
     "PostToolUseFailure": [ { "matcher": "*", "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true } ] } ],
-    "SessionStart":       [ { "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true } ] } ],
+    "SessionStart":       [ { "hooks": [
+      { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/config.py\" snapshot", "timeout": 10 },
+      { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true }
+    ] } ],
     "SubagentStop":       [ { "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true } ] } ],
     "PreCompact":         [ { "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true } ] } ],
     "Stop": [ { "hooks": [

@@ -13,6 +13,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS = ROOT / "scripts"
 
+# Tests never read the developer's own settings: point the user config at a file that doesn't exist,
+# and drop any session overrides from the shell that runs the suite.
+os.environ["TMN_FDEKIT_CONFIG"] = str(Path(tempfile.gettempdir()) / "tmn-fdekit-tests-no-user-config.json")
+for _k in ("TMN_FDEKIT_MODE", "TMN_FDEKIT_GUARD_OFF", "TMN_FDEKIT_PROTECTED", "TMN_FDEKIT_COMMS",
+           "TMN_FDEKIT_ALLOW_NO_CHECKS", "TMN_FDEKIT_VOICE"):
+    os.environ.pop(_k, None)
+
 
 def sh(cwd, *cmd, check=True):
     return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, check=check)

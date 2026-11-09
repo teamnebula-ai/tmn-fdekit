@@ -8,7 +8,7 @@ description: (tmn) Open or update your own pull request the staff way - one smal
 Shipping is making it easy for someone else to say yes, and impossible for a
 bad change to slip through on trust. Scripts are in `${CLAUDE_PLUGIN_ROOT}/scripts/`.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-ship-pr` override anything else in this skill.
 
 ## 1. Is it ready?
 

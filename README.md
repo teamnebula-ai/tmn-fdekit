@@ -48,10 +48,13 @@ npx -y github:teamnebula-ai/tmn-fdekit hooks --target codex   # Codex runs the g
 then upload each zip in Customize › Skills.
 
 **Check it worked:** `npx -y github:teamnebula-ai/tmn-fdekit doctor` lists the
-tools it found and where the skills are installed. Then ask your agent to
-"review PR #12" or "make docs for this repo" and it picks the matching skill.
+tools it found and where the skills are installed.
 
-To pin a version, add the tag: `github:teamnebula-ai/tmn-fdekit#v0.5.0`. To
+**Then fit it to your team:** ask your agent to "set up the kit". See
+[Make it yours](#make-it-yours). After that, ask for real work ("review PR
+#12", "make docs for this repo") and it picks the matching skill.
+
+To pin a version, add the tag: `github:teamnebula-ai/tmn-fdekit#v0.6.0`. To
 remove it: `npx -y github:teamnebula-ai/tmn-fdekit uninstall` (and
 `hooks --remove`), which only deletes what it installed.
 
@@ -78,8 +81,12 @@ report the output of the last one.
    `claude plugin list`) and show the user the result. Say "installed" only
    if that output shows the skills.
 
+5. Offer to run the `tmn-setup` skill next, so the limits, mode and rules
+   fit the user's team. Don't change any setting without their answers.
+
 Once installed, load `tmn-staff-bar` at the start of real engineering work.
-It sets the ground rules and the run mode the other skills follow.
+It sets the ground rules, the run mode and the team rules the other skills
+follow.
 
 | Doc | Covers |
 |---|---|
@@ -113,6 +120,7 @@ carry an extra word (`tmn-pr-review`, `tmn-ship-pr`, `tmn-harden-prod`,
 | 2 | `tmn-slack` | Slack messages a busy teammate reads once and acts on |
 | 2 | `tmn-ui-design` | UI with a deliberate direction, an accessibility floor, no AI tells |
 | 2 | `tmn-docs-site` | docs, guides and reference built as a one-file docs site (sidebar, search, Copy for LLM) to publish as an artifact |
+| 3 | `tmn-setup` | onboard a person or team: mode, PR limits, branches, comms, team rules |
 | 3 | `tmn-trace` | read the session trace and receipts; set up Langfuse or OTel |
 | 3 | `tmn-enforce` | put the same checks in a repo's CI, git hooks and GitHub rules |
 
@@ -123,6 +131,26 @@ reported.
 The skills use only the open Agent Skills fields, so the same folder works in
 every agent above. The hooks run in Claude Code and (beta) Codex. Everywhere
 else, the `tmn-enforce` skill puts the same rules in CI and git hooks.
+
+## Make it yours
+
+Nothing in the kit is fixed. After installing, ask your agent to **"set up
+the kit"**. The `tmn-setup` skill asks a few questions and writes your
+settings:
+
+- **Run mode**: standard or yolo (below).
+- **PR limits**: by default a warning past 400 changed lines and a failure
+  past 1,000, following Google's and SmartBear's review research. Raise them
+  if your team ships bigger changes.
+- **One commit per PR**, your **ticket pattern**, and **protected branches**.
+- **Comms lint**: block, warn or off, matched to your own writing style.
+- **Team rules**: plain sentences that override any skill's defaults, for
+  example "Squash-merge only" for `tmn-ship-pr`.
+
+Settings for you go in `~/.tmn-fdekit/config.json`. Settings for the team go
+in the repo's `.tmn-fdekit.json`, committed so people, agents and CI share
+them. `python3 scripts/config.py show` lists every setting and where it came
+from. The full list is in [Configuration](docs/configuration.md).
 
 ## Run modes: standard or yolo
 
@@ -150,10 +178,11 @@ in both modes.
 | trace (every event, async) | one compact, secret-redacted line per tool call; no output, no tokens |
 | receipt (on stop and session end) | a receipt per session: tests and results, edits, subagents, tokens |
 
-A rule that's wrong for a repo can be turned off for the session in the
-environment that launches the agent: `TMN_FDEKIT_GUARD_OFF=rule1,rule2`,
-`TMN_FDEKIT_COMMS=warn|off`. A prefix typed into the agent's own command is
-ignored, so the agent can't waive its own guard.
+A rule that's wrong for a team can be turned off in the settings
+(`"guard": {"off": ["comment-spam"]}`) or for one session with
+`TMN_FDEKIT_GUARD_OFF=rule1,rule2`. Guard changes apply from the next session,
+and a prefix typed into the agent's own command is ignored, so an agent can't
+waive its own guard mid-task.
 
 ## Scripts you can run yourself
 
@@ -169,15 +198,10 @@ python3 scripts/ui_lint.py src/components/*.tsx                  # a11y footguns
 python3 scripts/docs_site.py my-docs/ -o docs.html --style dark  # markdown folder -> one-file docs site
 python3 scripts/receipt.py                                       # what this session actually ran
 python3 scripts/mode.py --explain                                # standard or yolo, and where it came from
+python3 scripts/config.py show                                   # every setting, and which file it came from
 scripts/otel_env.sh langfuse https://cloud.langfuse.com          # telemetry env, never prints a secret
 ```
 
-Per-repo settings live in `.tmn-fdekit.json`:
-
-```json
-{ "test": "make test", "up": "docker compose up -d --wait",
-  "pr": { "max_lines": 500, "one_commit": true, "ticket_re": "[A-Z]+-\\d+" } }
-```
 
 ## Develop
 

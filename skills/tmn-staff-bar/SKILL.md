@@ -33,8 +33,9 @@ the habit.
 
 - Stay inside the ticket. Anything else you find becomes a note or a new
   ticket, not a bigger diff.
-- Small PRs: one thing each, aim for under 300 changed lines. Big PRs get
-  skimmed, not reviewed.
+- Small PRs: one thing each, under the repo's limits (`config.py show`; by
+  default a warning past 400 changed lines and a failure past 1,000). Big
+  PRs get skimmed, not reviewed.
 - If the spec is thin, ask before building on a guess you can't cheaply undo.
   Ask one or two sharp questions, not ten.
 
@@ -107,6 +108,23 @@ there's no `--admin` or force push, no secret is printed, production data is
 never touched, and every result is read back before it's reported. If yolo
 hits one of those lines, stop and say so; that's not a checkpoint to skip.
 
+## 8. Team settings and rules win
+
+The kit's defaults are a starting point, not a fixed policy. Teams change
+them with the `tmn-setup` skill, and the result lives in one settings file
+(`config.py` explains the layers).
+
+- Before following any skill, run
+  `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/config.py rules <skill>`. A team rule
+  wins over the skill's own text.
+- Limits (PR size, protected branches, ticket pattern) come from
+  `config.py show`, not from numbers written in a skill.
+- Team rules can't lift the hard lines in section 7. Only a person, through
+  the guard settings, changes what the hooks block, and that takes effect
+  from the next session.
+- If a rule keeps getting in the way of how the team works, say so and offer
+  `tmn-setup`, rather than working around it.
+
 ## Where things are
 
 The scripts live in this plugin's `scripts/` folder, `${CLAUDE_PLUGIN_ROOT}/scripts/`.
@@ -123,6 +141,7 @@ file. Each script prints its usage with `--help` or no arguments:
 | `slop.py` | lint a PR body, review comment, commit or Slack message |
 | `receipt.py` | print what this session actually ran |
 | `mode.py` | print the run mode: standard or yolo |
+| `config.py` | show or change the settings and team rules (`show`, `rules`, `set`) |
 
 ## Skill tiers
 
@@ -134,5 +153,6 @@ Pick the narrowest skill that fits. Each one loads only what it needs.
   `tmn-debug` (find a root cause), `tmn-harden-prod` (security and failure modes).
 - **Tier 2, the craft:** `tmn-write` (anything a person reads), `tmn-slack` (send a
   Slack message), `tmn-ui-design` (UI work), `tmn-docs-site` (docs people browse and share).
-- **Tier 3, setup:** `tmn-trace` (observability backend, receipts), `tmn-enforce`
-  (wire the same checks into a repo's git hooks and CI).
+- **Tier 3, setup:** `tmn-setup` (onboard and customize the kit), `tmn-trace`
+  (observability backend, receipts), `tmn-enforce` (wire the same checks into a
+  repo's git hooks and CI).

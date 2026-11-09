@@ -17,10 +17,11 @@ Rules (each names the habit it stops):
   protected-push   git push straight to a protected branch
   no-verify        git commit/push --no-verify (skips the repo's hooks)
 
-Turn a rule off for a whole session with TMN_FDEKIT_GUARD_OFF=rule1,rule2 in the
-environment that launches the agent (settings.json "env"). A prefix typed into
-the command itself is ignored on purpose: the agent must not be able to waive
-its own guard.
+Turn a rule off with "guard": {"off": [...]} in the settings (scripts/config.py),
+or TMN_FDEKIT_GUARD_OFF=rule1,rule2 in the environment that launches the agent.
+The guard reads the settings frozen when the session started, so editing a file
+mid-session changes nothing until the next one, and a prefix typed into the
+command itself is ignored. The agent must not be able to waive its own guard.
 """
 from __future__ import annotations
 
@@ -34,11 +35,21 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _common import is_test_command, load_trace, read_hook_input, segments  # noqa: E402
+import config  # noqa: E402
 
-PROTECTED = set((os.environ.get("TMN_FDEKIT_PROTECTED") or "main master prod production release").split())
-OFF = {r.strip() for r in (os.environ.get("TMN_FDEKIT_GUARD_OFF") or "").split(",") if r.strip()}
-if os.environ.get("TMN_FDEKIT_GUARD_OFF", "").strip() == "all":
-    OFF = {"*"}
+# Filled from the session's settings in main().
+PROTECTED: set[str] = set(config.DEFAULTS["guard"]["protected"])
+OFF: set[str] = set()
+ALLOW_NO_CHECKS = False
+
+
+def apply_settings(cfg: dict) -> None:
+    global PROTECTED, OFF, ALLOW_NO_CHECKS
+    g = cfg.get("guard", {})
+    PROTECTED = set(g.get("protected", config.DEFAULTS["guard"]["protected"]))
+    off = set(g.get("off", []))
+    OFF = {"*"} if "all" in off else off
+    ALLOW_NO_CHECKS = bool(g.get("allow_no_checks"))
 
 
 class Block(Exception):
@@ -129,9 +140,9 @@ def guard_gh_pr(toks: list[str], ev: dict) -> None:
               "No approval covers the current head commit from someone who neither opened the PR nor pushed to it. "
               "A push after approval needs a fresh one. Leave the PR open and say who it is waiting on.")
         checks = info.get("statusCheckRollup") or []
-        check("merge-unready", not checks and os.environ.get("TMN_FDEKIT_ALLOW_NO_CHECKS") != "1",
+        check("merge-unready", not checks and not ALLOW_NO_CHECKS,
               "No checks ran on this PR, so nothing shows it builds or passes tests. Add CI (see the enforce skill) "
-              "or have a human set TMN_FDEKIT_ALLOW_NO_CHECKS=1 for this repo.")
+              "or have a human set guard.allow_no_checks to true in the settings for this repo.")
         check("merge-unready", bool(bad),
               "Checks are not all green: " + ", ".join(sorted({(c.get('name') or c.get('context') or '?') + '=' + (c.get('conclusion') or c.get('state') or 'PENDING') for c in bad}))[:400]
               + ". Wait for every check, including non-required ones, or fix the red one.")
@@ -250,6 +261,7 @@ def _record_block(ev: dict, rule: str, command: str) -> None:
 
 def main() -> int:
     ev = read_hook_input()
+    apply_settings(config.for_session(ev))
     ti = ev.get("tool_input") or {}
     command = ti.get("command") if isinstance(ti, dict) else None
     if isinstance(command, list):  # some agents pass argv

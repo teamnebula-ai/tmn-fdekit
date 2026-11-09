@@ -10,7 +10,7 @@ prompt. Prompts get skipped under pressure; checks don't. The plugin's hooks
 cover agents running Claude Code. This skill puts the same rules where
 everyone hits them: in git and in CI.
 
-> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both.
+> Checkpoints follow the run mode in `tmn-staff-bar`: standard stops and asks before each push, post, message or hand-off to the next skill; yolo runs through. The hard lines hold in both. Team rules from `config.py rules tmn-enforce` override anything else in this skill.
 
 Templates are in `${CLAUDE_PLUGIN_ROOT}/templates/`. Copy them into the repo,
 don't link to them, so the repo stands alone.
