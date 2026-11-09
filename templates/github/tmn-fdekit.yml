@@ -1,0 +1,48 @@
+# tmn-fdekit checks: PR hygiene, the repo's own gate, and proof the new tests catch something.
+# Scripts are vendored in .github/tmn-fdekit/scripts (copy them from the plugin's scripts/ folder),
+# so this workflow needs no token and no network beyond checkout.
+name: tmn-fdekit
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  pr-check:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: PR hygiene
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          printf '%s\n%s\n' "$TITLE" "$BODY" > "$RUNNER_TEMP/pr-body.md"
+          python3 .github/tmn-fdekit/scripts/pr_check.py --base "origin/${{ github.base_ref }}" --body "$RUNNER_TEMP/pr-body.md"
+  gate:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Add the repo's own setup here (setup-node / setup-python + install) before the gate.
+      - name: Lint, types, tests
+        run: python3 .github/tmn-fdekit/scripts/gate.py
+      - name: Show failing step log
+        if: failure()
+        run: tail -n 200 ~/.tmn-fdekit/logs/*/*.log || true
+  redgreen:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      # Same setup as the gate job. Set TEST_CMD to run specific files: {tests} is replaced by the changed tests.
+      - name: New tests fail on the base branch and pass here
+        env:
+          TEST_CMD: ${{ vars.TMN_FDEKIT_TEST_CMD || 'python3 -m pytest -q {tests}' }}
+        run: |
+          git config user.email ci@example.com && git config user.name ci
+          .github/tmn-fdekit/scripts/redgreen.sh "origin/${{ github.base_ref }}" "$TEST_CMD"

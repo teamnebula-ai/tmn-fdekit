@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: clean-cancel
+context:
+  scaffold_script: place-files.sh
+expected_outcome: |
+  The change meets all four criteria and its tests fail on main and pass on the branch. The review
+  approves (or recommends approval), invents no blocker, maps each criterion to evidence, and says
+  what was run. It is short.

@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: seeded-tenant-bug
+context:
+  scaffold_script: place-files.sh
+expected_outcome: |
+  The review requests changes. It reports that cancel_order / store.cancel ignore the caller's tenant,
+  so tenant B can cancel tenant A's order (criterion 2 not met), shown by a repro or the quoted line;
+  that a missing order returns 200 instead of 404 (criterion 3 not met); and that the new test does
+  not exercise cancel at all, so it passes on main too. It ran the tests. It is one concise comment.

@@ -1,0 +1,8 @@
+{
+  "name": "tmn-fdekit",
+  "owner": { "name": "Team Nebula" },
+  "description": "Team Nebula's staff-level engineering plugin",
+  "plugins": [
+    { "name": "tmn-fdekit", "source": "./", "description": "Staff-level review, verification, shipping and comms discipline with zero-token tracing" }
+  ]
+}

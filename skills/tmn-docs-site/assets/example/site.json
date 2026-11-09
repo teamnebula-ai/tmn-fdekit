@@ -1,0 +1,10 @@
+{
+  "title": "Lark Docs",
+  "tagline": "Lark syncs a folder of notes to any git remote. These docs cover install, everyday use and the config file.",
+  "style": "clean",
+  "links": [{ "label": "Changelog", "href": "#/changelog" }],
+  "nav": [
+    { "group": "Get started", "pages": ["index", "quickstart"] },
+    { "group": "Reference", "pages": ["config", "changelog"] }
+  ]
+}

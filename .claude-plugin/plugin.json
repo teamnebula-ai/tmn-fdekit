@@ -1,0 +1,21 @@
+{
+  "name": "tmn-fdekit",
+  "displayName": "TMN FDE Kit",
+  "version": "0.5.0",
+  "description": "Staff-level engineering discipline for coding agents: adversarial review that runs the code, proof before 'done', small honest PRs, plain-language comms, and a zero-token trace of everything the agent did.",
+  "author": {
+    "name": "Team Nebula",
+    "url": "https://teamnebula.ai"
+  },
+  "repository": "https://github.com/teamnebula-ai/tmn-fdekit",
+  "keywords": [
+    "code-review",
+    "verification",
+    "adversarial-review",
+    "observability",
+    "otel",
+    "langfuse",
+    "hooks"
+  ],
+  "license": "MIT"
+}

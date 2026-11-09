@@ -1,0 +1,24 @@
+{
+  "description": "tmn-fdekit: block amateur moves, lint outgoing text, and keep a zero-token trace of every action",
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "Bash", "hooks": [
+        { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/guard.py\"", "timeout": 30 },
+        { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/comms.py\"", "timeout": 10 }
+      ] },
+      { "matcher": "mcp__.*[Ss]lack.*", "hooks": [
+        { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/comms.py\"", "timeout": 10 }
+      ] }
+    ],
+    "PostToolUse":        [ { "matcher": "*", "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true } ] } ],
+    "PostToolUseFailure": [ { "matcher": "*", "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true } ] } ],
+    "SessionStart":       [ { "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true } ] } ],
+    "SubagentStop":       [ { "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true } ] } ],
+    "PreCompact":         [ { "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/trace.py\"", "async": true } ] } ],
+    "Stop": [ { "hooks": [
+      { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/claims.py\"", "timeout": 10 },
+      { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/receipt.py\" --hook", "async": true }
+    ] } ],
+    "SessionEnd": [ { "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/receipt.py\" --hook" } ] } ]
+  }
+}

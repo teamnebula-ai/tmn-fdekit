@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.tmn-fdekit/
+.DS_Store
+dist/
+node_modules/
+.impeccable/
+.private-patterns

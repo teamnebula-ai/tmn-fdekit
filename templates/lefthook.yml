@@ -1,0 +1,9 @@
+# tmn-fdekit local hooks (https://github.com/evilmartians/lefthook). Fast feedback only:
+# anyone can skip local hooks, so CI is the real control.
+pre-push:
+  parallel: false
+  commands:
+    pr-hygiene:
+      run: python3 .github/tmn-fdekit/scripts/pr_check.py --base origin/HEAD
+    gate:
+      run: python3 .github/tmn-fdekit/scripts/gate.py

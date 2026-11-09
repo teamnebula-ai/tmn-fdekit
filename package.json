@@ -1,0 +1,13 @@
+{
+  "name": "tmn-fdekit",
+  "version": "0.5.0",
+  "description": "Staff-level engineering skills, hooks and zero-token tracing for coding agents",
+  "type": "module",
+  "bin": { "tmn-fdekit": "cli/tmn-fdekit.mjs" },
+  "files": ["cli", "skills", "scripts", "agents", "hooks", "templates", ".claude-plugin", "README.md", "LICENSE", "docs"],
+  "engines": { "node": ">=18" },
+  "scripts": { "test": "node --test tests/cli.test.mjs" },
+  "repository": { "type": "git", "url": "git+https://github.com/teamnebula-ai/tmn-fdekit.git" },
+  "license": "MIT",
+  "private": true
+}
