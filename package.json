@@ -1,6 +1,6 @@
 {
   "name": "tmn-fdekit",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Staff-level engineering skills, hooks and zero-token tracing for coding agents",
   "type": "module",
   "bin": { "tmn-fdekit": "cli/tmn-fdekit.mjs" },

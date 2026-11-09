@@ -54,35 +54,18 @@ tools it found and where the skills are installed.
 [Make it yours](#make-it-yours). After that, ask for real work ("review PR
 #12", "make docs for this repo") and it picks the matching skill.
 
-To pin a version, add the tag: `github:teamnebula-ai/tmn-fdekit#v0.6.0`. To
+To pin a version, add the tag: `github:teamnebula-ai/tmn-fdekit#v0.6.1`. To
 remove it: `npx -y github:teamnebula-ai/tmn-fdekit uninstall` (and
 `hooks --remove`), which only deletes what it installed.
 
 ## Install (for agents)
 
-If you're an agent asked to set this kit up, follow these steps in order and
-report the output of the last one.
-
-1. Check the prerequisites: `git --version`, `python3 --version` (3.10 or
-   newer) and `node --version` (18 or newer). If one is missing, stop and
-   tell the user which one.
-2. Pick the install for the harness you're running in:
-   - **Claude Code:** run `claude plugin marketplace add teamnebula-ai/tmn-fdekit`,
-     then `claude plugin install tmn-fdekit@tmn-fdekit`. Tell the user to
-     restart Claude Code, because skills load at startup.
-   - **Anything else:** run `npx -y github:teamnebula-ai/tmn-fdekit install --target <agent>`,
-     where `<agent>` is one of `claude`, `codex`, `cursor`, `gemini`,
-     `copilot`, `devin`, `opencode`, `amp` or `agents`. Add `--project` only
-     if the user wants it in this repo instead of their home folder.
-   - **Codex:** also run `npx -y github:teamnebula-ai/tmn-fdekit hooks --target codex`.
-3. Don't change the user's settings beyond that. Don't turn on `yolo` mode
-   unless the user asks for it by name.
-4. Run `npx -y github:teamnebula-ai/tmn-fdekit doctor` (Claude Code:
-   `claude plugin list`) and show the user the result. Say "installed" only
-   if that output shows the skills.
-
-5. Offer to run the `tmn-setup` skill next, so the limits, mode and rules
-   fit the user's team. Don't change any setting without their answers.
+Agents: follow [`INSTALL.md`](INSTALL.md). It works the same in Claude Code,
+Codex, Antigravity, Cursor, OpenCode, Gemini CLI, Copilot, Windsurf/Devin, Amp
+and any agent that reads `~/.agents/skills`: check the tools, pick the target,
+install, confirm with `doctor`, then offer `tmn-setup`. You can also point an
+agent at this repo and say "install this kit"; `AGENTS.md`, `.claude/CLAUDE.md`,
+`GEMINI.md` and `llms.txt` all send it to the same steps.
 
 Once installed, load `tmn-staff-bar` at the start of real engineering work.
 It sets the ground rules, the run mode and the team rules the other skills

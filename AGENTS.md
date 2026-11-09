@@ -1,6 +1,15 @@
 # AGENTS.md
 
-Instructions for any agent (Claude Code, Codex, Cursor) changing this repo.
+Read by Claude Code (through `.claude/CLAUDE.md`), Codex, Antigravity, Cursor,
+OpenCode, Gemini CLI, Copilot, Windsurf/Devin and Amp.
+
+## Asked to install this kit?
+
+Follow [`INSTALL.md`](INSTALL.md) step by step. It covers every agent above,
+says which target to pass, and how to check the install took. Don't edit this
+repo to install it.
+
+The rest of this file is for agents **changing** this repo.
 
 ## What this is
 
@@ -20,6 +29,8 @@ every rule that can be checked mechanically.
 | `scripts/` | standard-library Python and bash; no dependencies |
 | `templates/` | CI workflow, lefthook config, GitHub ruleset to copy into a repo |
 | `cli/tmn-fdekit.mjs` | zero-dependency installer behind `npx github:teamnebula-ai/tmn-fdekit` |
+| `INSTALL.md`, `llms.txt` | install steps for agents on any platform; an index for agents reading the repo by URL |
+| `.claude/CLAUDE.md`, `GEMINI.md` | import this file, plus a few platform-only notes |
 | `docs/` | getting started, platforms, hooks, scripts, configuration (incl. run modes) |
 | `tests/` | `unittest` suites; fake `gh` on PATH, throwaway git repos |
 
@@ -30,7 +41,7 @@ every rule that can be checked mechanically.
    the script instead.
 2. **Test first.** Add the failing case to `tests/`, then make it pass.
    `make check` must be green: shellcheck, Python and Node tests, `claude plugin validate --strict`.
-   When an agent changes where it reads skills, update `TARGETS` in the CLI and `docs/platforms.md` together.
+   When an agent changes where it reads skills, update `TARGETS` in the CLI, `INSTALL.md` and `docs/platforms.md` together (a test checks every target is in both docs).
 3. **Hooks never spend tokens by accident.** Trace hooks are async, print
    nothing and exit 0. Blocking hooks print one actionable reason to stderr
    and exit 2. A hook must never be waivable by text the agent types into its

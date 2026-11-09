@@ -170,3 +170,27 @@ test("unknown target fails loudly", () => {
     assert.throws(() => s.run("install", "--target", "nope"), /unknown target/);
   } finally { s.done(); }
 });
+
+test("every install target is documented for agents and people", async () => {
+  const { TARGETS } = await import(CLI);
+  const docs = ["INSTALL.md", "docs/platforms.md"].map((f) => [f, readFileSync(join(ROOT, f), "utf8")]);
+  for (const t of Object.keys(TARGETS)) {
+    for (const [f, text] of docs) assert.ok(text.includes(`--target ${t}`) || text.includes(`\`${t}\``), `${f} is missing target ${t}`);
+  }
+});
+
+test("antigravity installs to its global skills folder", () => {
+  const s = sandbox();
+  try {
+    s.run("install", "--target", "antigravity");
+    assert.ok(existsSync(join(s.home, ".gemini", "config", "skills", "tmn-staff-bar", "SKILL.md")));
+  } finally { s.done(); }
+});
+
+test("agent entry files point at AGENTS.md and INSTALL.md", () => {
+  const agents = readFileSync(join(ROOT, "AGENTS.md"), "utf8");
+  assert.match(agents, /INSTALL\.md/);
+  assert.match(readFileSync(join(ROOT, ".claude", "CLAUDE.md"), "utf8"), /^@\.\.\/AGENTS\.md$/m, "CLAUDE.md imports AGENTS.md");
+  assert.match(readFileSync(join(ROOT, "GEMINI.md"), "utf8"), /^@AGENTS\.md$/m, "GEMINI.md imports AGENTS.md");
+  assert.match(readFileSync(join(ROOT, "llms.txt"), "utf8"), /INSTALL\.md/);
+});
